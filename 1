@@ -1,0 +1,21 @@
+import spacy
+import re
+
+# Load spaCy
+nlp = spacy.load("en_core_web_sm")
+
+# Text input
+text = "NLP helps computers understand human language. Let's test spaCy and regex!"
+
+# spaCy: sentences and words
+doc = nlp(text)
+sentences = [sent.text for sent in doc.sents]
+words = [token.text for token in doc]
+
+# Regex: words only (no punctuation or numbers)
+regex_words = re.findall(r'\b[A-Za-z]+\b', text)
+
+# Output
+print("Sentences:", sentences)
+print("Words (spaCy):", words)
+print("Words (regex):", regex_words)
