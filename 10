@@ -1,0 +1,19 @@
+!pip install googletrans==4.0.0-rc1
+
+import googletrans
+from googletrans import Translator
+
+# Initialize the translator
+translator = Translator()
+
+# Input English text
+text = input("Enter English Text: ")
+
+# Translate English to Hindi
+source_lan = "en"
+translated_to = "hi"
+translated_text = translator.translate(text, src=source_lan, dest=translated_to)
+
+# Print the original and translated sentences
+print(f"English Language: {text}")
+print(f"Hindi Language: {translated_text.text}")
