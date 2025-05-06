@@ -1,0 +1,17 @@
+import nltk
+
+# Make sure you have the required NLTK datasets
+nltk.download('punkt_tab')  # For word tokenization
+nltk.download('averaged_perceptron_tagger_eng')  # For POS tagging
+
+# Sample text
+text = "The cat sat on the mat."
+
+# Step 1: Tokenize the text into words
+tokens = nltk.word_tokenize(text)
+
+# Step 2: Perform POS tagging
+pos_tags = nltk.pos_tag(tokens)
+
+# Step 3: Print the POS tags
+print("POS Tags:", pos_tags)
