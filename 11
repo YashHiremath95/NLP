@@ -1,0 +1,27 @@
+!pip install nltk
+
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+# Download VADER lexicon
+nltk.download('vader_lexicon')
+
+# Initialize the VADER SentimentIntensityAnalyzer
+sia = SentimentIntensityAnalyzer()
+
+# Input movie review text
+review = input("Enter movie review: ")
+
+# Get sentiment scores
+sentiment_scores = sia.polarity_scores(review)
+
+# Print sentiment scores
+print("Sentiment Scores:", sentiment_scores)
+
+# Determine sentiment based on compound score
+if sentiment_scores['compound'] >= 0.05:
+    print("Sentiment: Positive")
+elif sentiment_scores['compound'] <= -0.05:
+    print("Sentiment: Negative")
+else:
+    print("Sentiment: Neutral")
