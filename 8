@@ -1,0 +1,19 @@
+import re
+
+def ner(sentence):
+    # Define patterns for Person (capitalized words) and Location (place names)
+    person_pattern = r'\b[A-Z][a-z]+\s[A-Z][a-z]+\b'  # Looks for first and last name
+    location_pattern = r'\b[A-Z][a-z]+(?:\s[A-Z][a-z]+)*\b'  # Looks for capitalized place names
+
+    # Find all matches for person and location
+    persons = re.findall(person_pattern, sentence)
+    locations = re.findall(location_pattern, sentence)
+
+    return persons, locations
+
+# Example usage
+sentence = "John Doe visited Paris last summer."
+persons, locations = ner(sentence)
+
+print("Persons:", persons)
+print("Locations:", locations)
