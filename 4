@@ -1,0 +1,17 @@
+import nltk
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+
+# Download only the absolute essentials
+nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger')
+
+ps = PorterStemmer()
+wnl = WordNetLemmatizer()
+
+words = ["running", "flies", "better", "studies", "children"]
+
+print(f"{'Word':<10} {'Stem':<10} {'Lemma':<10}")
+print("-" * 30)
+
+for word in words:
+    print(f"{word:<10} {ps.stem(word):<10} {wnl.lemmatize(word, pos='v'):<10}")
