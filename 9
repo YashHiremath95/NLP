@@ -1,0 +1,34 @@
+import spacy
+
+# Load the English NLP model
+nlp = spacy.load("en_core_web_sm")
+
+def identify_svo(sentence):
+    # Process the sentence with spaCy
+    doc = nlp(sentence)
+
+    subject = None
+    verb = None
+    obj = None
+
+    # Loop through the sentence tokens to identify subject, verb, and object
+    for token in doc:
+        # Check for subject
+        if "subj" in token.dep_:
+            subject = token.text
+        # Check for verb
+        if "VERB" in token.pos_:
+            verb = token.text
+        # Check for object
+        if "obj" in token.dep_:
+            obj = token.text
+
+    return subject, verb, obj
+
+# Test the function
+sentence = "The cat chases the mouse."
+subject, verb, obj = identify_svo(sentence)
+
+print(f"Subject: {subject}")
+print(f"Verb: {verb}")
+print(f"Object: {obj}")
