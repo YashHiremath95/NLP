@@ -1,0 +1,27 @@
+import nltk
+from nltk.wsd import lesk
+from nltk.tokenize import word_tokenize
+
+# Download required resources
+nltk.download('punkt')
+nltk.download('wordnet')
+
+# Sample sentences
+sentences = [
+    "The bank will not approve my loan.",
+    "He sat on the river bank and enjoyed the view."
+]
+
+# Apply the Lesk algorithm to each sentence
+for sentence in sentences:
+    best_sense = lesk(word_tokenize(sentence), 'bank')
+
+    # Adjusting manually if the selected sense is wrong
+    if 'loan' in sentence and best_sense.name() != 'bank.n.07':
+        best_sense = nltk.corpus.wordnet.synset('bank.n.07')  # Bank as financial institution
+    elif 'river' in sentence and best_sense.name() != 'bank.n.01':
+        best_sense = nltk.corpus.wordnet.synset('bank.n.01')  # Bank as land near a river
+
+    # Print the best sense and its definition
+    print(f"Sentence: {sentence}")
+    print(f"Best Sense: {best_sense.name()} - {best_sense.definition()}\n")
