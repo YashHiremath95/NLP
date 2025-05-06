@@ -1,0 +1,25 @@
+import nltk
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+# Download what we need
+nltk.download('punkt')
+nltk.download('stopwords')
+
+text = "Natural Language Processing (NLP) enables machines to understand human language.It involves challenges like language modeling, sentiment analysis, and text summarization."
+
+# Simple processing
+words = [w.lower() for w in nltk.word_tokenize(text) if w.isalpha()
+         and w.lower() not in nltk.corpus.stopwords.words('english')]
+
+# Make word cloud
+wordcloud = WordCloud(width=600, height=300).generate(' '.join(words))
+
+# Show it
+plt.imshow(wordcloud)
+plt.axis("off")
+plt.show()
+
+# Print top words
+from collections import Counter
+print("Top words:", Counter(words).most_common(5))
