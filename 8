@@ -1,13 +1,16 @@
 import re
 
 def ner(sentence):
-    # Define patterns for Person (capitalized words) and Location (place names)
-    person_pattern = r'\b[A-Z][a-z]+\s[A-Z][a-z]+\b'  # Looks for first and last name
-    location_pattern = r'\b[A-Z][a-z]+(?:\s[A-Z][a-z]+)*\b'  # Looks for capitalized place names
+    # Define patterns
+    person_pattern = r'\b[A-Z][a-z]+\s[A-Z][a-z]+\b'  # First + Last name
+    location_pattern = r'\b[A-Z][a-z]+(?:\s[A-Z][a-z]+)*\b'  # Place names or proper nouns
 
-    # Find all matches for person and location
+    # Find matches
     persons = re.findall(person_pattern, sentence)
     locations = re.findall(location_pattern, sentence)
+
+    # Remove names already identified as persons
+    locations = [loc for loc in locations if loc not in persons]
 
     return persons, locations
 
@@ -17,3 +20,4 @@ persons, locations = ner(sentence)
 
 print("Persons:", persons)
 print("Locations:", locations)
+
