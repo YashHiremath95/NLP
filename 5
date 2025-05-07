@@ -2,8 +2,8 @@ import nltk
 from collections import Counter
 from nltk import word_tokenize, bigrams
 
-# Download the punkt tokenizer data
-nltk.download('punkt')
+# Download tokenizer
+nltk.download('punkt_tab')
 
 # Sample corpus
 corpus = "I love natural language processing. I love machine learning."
@@ -14,8 +14,12 @@ tokens = word_tokenize(corpus.lower())
 # Unigram model
 unigram_probs = {word: tokens.count(word)/len(tokens) for word in set(tokens)}
 
-# Bigram model
-bigram_probs = {f"({w1}, {w2})": tokens.count(w1 + ' ' + w2)/tokens.count(w1) for w1, w2 in bigrams(tokens)}
+# Count bigrams properly
+bigram_list = list(bigrams(tokens))
+bigram_counts = Counter(bigram_list)
+
+# Bigram probabilities: P(w2 | w1) = count(w1, w2) / count(w1)
+bigram_probs = {(w1, w2): count / tokens.count(w1) for (w1, w2), count in bigram_counts.items()}
 
 # Display results
 print("Unigram Probabilities:")
@@ -23,5 +27,6 @@ for word, prob in unigram_probs.items():
     print(f"P('{word}') = {prob:.3f}")
 
 print("\nBigram Probabilities:")
-for bigram, prob in bigram_probs.items():
-    print(f"P({bigram}) = {prob:.3f}")
+for (w1, w2), prob in bigram_probs.items():
+    print(f"P('{w2}' | '{w1}') = {prob:.3f}")
+
