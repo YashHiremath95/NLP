@@ -1,0 +1,26 @@
+import nltk
+from nltk.tag import hmm
+from nltk.corpus import treebank
+
+# Download required datasets
+nltk.download('treebank')
+nltk.download('punkt')
+
+# Load a small portion of the Penn Treebank corpus
+train_data = treebank.tagged_sents()  # Use first 300 sentences for training
+
+# Train the HMM POS tagger
+trainer = hmm.HiddenMarkovModelTrainer()
+hmm_tagger = trainer.train(train_data)
+
+# Input sentence to tag
+sentence = "it is a happy day"
+tokens = nltk.word_tokenize(sentence)
+
+# Tag the sentence
+tagged = hmm_tagger.tag(tokens)
+
+# Display the tagged output
+print("HMM POS Tagging:")
+for word, tag in tagged:
+    print(f"{word:10} -> {tag}")
