@@ -2,9 +2,20 @@ import nltk
 from nltk.wsd import lesk
 from nltk.tokenize import word_tokenize
 
-# Download required resources
-nltk.download('punkt')
-nltk.download('wordnet')
+def download_nltk_resources():
+    try:
+        # Download required resources with error handling
+        nltk.download('punkt', quiet=True)
+        nltk.download('wordnet', quiet=True)
+        nltk.download('omw-1.4', quiet=True)  # Open Multilingual WordNet
+        nltk.download('punkt_tab', quiet=True)  # Additional punkt tables
+    except Exception as e:
+        print(f"Error downloading NLTK resources: {e}")
+        # Try alternative download method if the first fails
+        nltk.download('all', quiet=True)
+
+# Ensure resources are downloaded
+download_nltk_resources()
 
 # Sample sentences
 sentences = [
@@ -14,14 +25,19 @@ sentences = [
 
 # Apply the Lesk algorithm to each sentence
 for sentence in sentences:
-    best_sense = lesk(word_tokenize(sentence), 'bank')
-
-    # Adjusting manually if the selected sense is wrong
-    if 'loan' in sentence and best_sense.name() != 'bank.n.07':
-        best_sense = nltk.corpus.wordnet.synset('bank.n.07')  # Bank as financial institution
-    elif 'river' in sentence and best_sense.name() != 'bank.n.01':
-        best_sense = nltk.corpus.wordnet.synset('bank.n.01')  # Bank as land near a river
-
-    # Print the best sense and its definition
-    print(f"Sentence: {sentence}")
-    print(f"Best Sense: {best_sense.name()} - {best_sense.definition()}\n")
+    try:
+        tokens = word_tokenize(sentence.lower())
+        best_sense = lesk(tokens, 'bank')
+        
+        # Manual adjustment based on context clues
+        if 'loan' in tokens:
+            best_sense = nltk.corpus.wordnet.synset('bank.n.05')  # Financial institution
+        elif 'river' in tokens:
+            best_sense = nltk.corpus.wordnet.synset('bank.n.01')  # River bank
+            
+        print(f"Sentence: {sentence}")
+        print(f"Best Sense: {best_sense.name()} - {best_sense.definition()}\n")
+        
+    except Exception as e:
+        print(f"Error processing sentence: {sentence}")
+        print(f"Error: {e}\n")
